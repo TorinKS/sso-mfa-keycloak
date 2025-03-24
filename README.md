@@ -35,7 +35,7 @@ When a user has already authenticated, the OAuth/OIDC angular integration redire
 - Access token
 - ID token
 - Refresh token
-![Authorization Code Flow with SSO](./documentation/authorization-code-flow-without-sso.svg)
+![Authorization Code Flow with SSO](./documentation/authorization-code-flow-sso-cookies-authentication.svg)
 
 ### Detailed Explanation
 A detailed explanation of this configuration, Angular apps, and Keycloak configurations can be found in the post "Keycloak cookie-based SSO" (<a href="https://recallfor.xyz/">TODO</a>).
