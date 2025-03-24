@@ -1,0 +1,97 @@
+version: '3'
+ 
+services:
+    postgresql-service:
+        container_name: ${PROJECT_NAME}_postgresql
+        image: postgres
+        build: ./postgresql
+        environment:
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+            POSTGRES_DB: ${POSTGRES_DB}
+        ports:
+            - "5432:5432"
+        networks:
+            public_net:
+                ipv4_address: ${POSTGRESQL_IP}    
+        restart: unless-stopped
+        volumes:
+            - keycloak-db-volume:/var/lib/postgresql/data
+
+    mf-service-a:
+        container_name: ${PROJECT_NAME}_mfe_a
+        image: mfe-a
+        build: ./mfe-a/kc-poc
+        expose:
+            - ${MFE_A_EXPOSED_PORT}
+        #ports:
+        #    - "3000:3000"    
+        networks:
+            public_net:
+                ipv4_address: ${MFE_A_IP}
+    mf-service-b:
+        container_name: ${PROJECT_NAME}_mfe_b
+        image: mfe-b
+        build: ./mfe-b/kc-poc
+        expose:
+            - ${MFE_B_EXPOSED_PORT}
+        #ports:
+        #    - "3000:3000"    
+        networks:
+            public_net:
+                ipv4_address: ${MFE_B_IP}
+    keycloak-service:
+        container_name: ${PROJECT_NAME}_keycloak
+        build: ./keycloak
+        environment:
+            KC_DB: postgres
+            KC_DB_URL_HOST: postgresql-service
+            KC_DB_URL_PORT: 5432
+            KC_DB_URL_DATABASE: ${POSTGRES_DB}
+            KC_DB_USERNAME: postgres
+            KC_DB_PASSWORD: postgres
+            KEYCLOAK_ADMIN: admin
+            KEYCLOAK_ADMIN_PASSWORD: admin
+            #KC_LOG_LEVEL: debug
+
+        depends_on:
+            - postgresql-service
+        links:
+            - "postgresql-service:postgres"    
+        ports:
+            - "8443:8443"
+            - "8080:8080"
+            - "5005:5005"
+        expose:
+            - ${KEYCLOAK_EXPOSED_PORT}    
+        networks:
+            public_net:
+                ipv4_address: ${KEYCLOAK_IP}
+    haproxy_img:
+        build: ./haproxy
+        ports:
+            - 80:80
+        expose:
+            - 80
+        networks:
+            public_net:
+                ipv4_address: ${HA_PROXY_IP}
+        environment:
+            - MFE_A_IP=${MFE_A_IP}
+            - MFE_B_IP=${MFE_B_IP}
+            - KEYCLOAK_IP=${KEYCLOAK_IP}
+            - MFE_A_EXPOSED_PORT=${MFE_A_EXPOSED_PORT}
+            - MFE_B_EXPOSED_PORT=${MFE_B_EXPOSED_PORT}
+            - KEYCLOAK_EXPOSED_PORT=${KEYCLOAK_EXPOSED_PORT}
+networks:
+    public_net:
+        driver: bridge
+        ipam:
+            driver: default
+            config:
+                - subnet: ${NETWORK_SUBNET}
+
+volumes:
+  keycloak-db-volume:
+    labels:
+        - compose.app=keycloak
