@@ -41,10 +41,10 @@ When a user has already authenticated, the OAuth/OIDC angular integration redire
 A detailed explanation of this configuration, Angular apps, and Keycloak configurations can be found in the post "Keycloak cookie-based SSO" (<a href="https://recallfor.xyz/">TODO</a>).
 
 ## Specific Configuration Notes
-We use the home.arpa domain to enable the HTTP protocol for traffic capturing and analysis and to make it work with browsers that typically enforce HTTPS
+1. We use the home.arpa domain to enable the HTTP protocol for traffic capturing and analysis and to make it work with browsers that typically enforce HTTPS
 2. Docker Compose configuration uses NETWORK_SUBNET=10.0.0.0/8, which is probably the best option for running this example in home networks where 192.168.0.0 subnet is more popular. In case you have a 10.0.0.0 subnet, replace IP addresses in the .env file to use NETWORK_SUBNET=192.168.0.0/255.255.0.0.
 3. We use HAProxy to work with domain names as-is and to implement a configuration that is more suitable for production environments with reverse proxies (nginx, HAProxy, etc.) in front of Keycloak and your frontend applications.
 4. You need to add these lines to your /etc/hosts file:
-- 127.0.0.1 mfe-a.home.arpa
-- 127.0.0.1 mfe-b.home.arpa
-- 127.0.0.1 sso.home.arpa
+    - 127.0.0.1 mfe-a.home.arpa
+    - 127.0.0.1 mfe-b.home.arpa
+    - 127.0.0.1 sso.home.arpa
