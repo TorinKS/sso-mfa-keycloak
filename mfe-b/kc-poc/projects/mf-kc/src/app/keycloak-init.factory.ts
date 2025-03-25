@@ -9,7 +9,7 @@ const KC_OPTIONS: KeycloakOptions = {
   initOptions: {    
     onLoad: 'login-required',    
     flow: 'standard',
-    checkLoginIframe: true,
+    checkLoginIframe: false,
     enableLogging: true,
     useNonce: true,
     adapter: 'default',
