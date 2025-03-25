@@ -19,6 +19,11 @@ echo -e "127.0.0.1 mfe-a.home.arpa\n127.0.0.1 mfe-b.home.arpa\n127.0.0.1 sso.hom
 ```
 
 ## Architecture
+### The High-level architecture
+The high-level architecture of the solution is the following
+![High-level architecture](./documentation/high-level-architecture.svg)
+
+
 ### Authorization Code Flow in Keycloak without SSO and Simple User/Password Authentication
 
 Below is the simple authorization code flow with login and password authentication in Keycloak. You can see 3 steps:
