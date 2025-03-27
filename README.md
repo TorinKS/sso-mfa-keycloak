@@ -43,7 +43,7 @@ When a user has already authenticated, the OAuth/OIDC angular integration redire
 ![Authorization Code Flow with SSO](./documentation/authorization-code-flow-sso-cookies-authentication.svg)
 
 ### Detailed Explanation
-A detailed explanation of this configuration, Angular apps, and Keycloak configurations can be found in the post "Keycloak cookie-based SSO" (<a href="https://recallfor.xyz/">TODO</a>).
+A detailed explanation of this configuration, Angular apps, and Keycloak configurations can be found in the post "Keycloak cookie-based SSO" (<a href="https://recallfor.xyz/keycloak-cookie-based-sso-on-real-example/">Keycloak cookie based SSO</a>).
 
 ## Specific Configuration Notes
 1. We use the home.arpa domain to enable the HTTP protocol for traffic capturing and analysis and to make it work with browsers that typically enforce HTTPS
